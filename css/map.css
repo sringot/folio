@@ -1,0 +1,304 @@
+/* ==========================================================================
+   map.css — Écran « MISSION SELECT » (hommage Broforce, 100 % maison).
+   Carte plein écran, HUD de jeu, panneaux de briefing.
+   Dépend de tokens.css (reset, accessibilité, plomberie de thème).
+   Palette dédiée : JOUR par défaut (le jeu se passe de jour),
+   NUIT sous [data-theme="dark"].
+   ========================================================================== */
+
+/* ---------- PALETTE JOUR ---------- */
+:root {
+    --ocean-1:   #2f9ec4;
+    --ocean-2:   #1c6f92;
+    --ocean-3:   #124f6b;
+    --ocean-glow: rgba(150, 232, 255, 0.30);
+    --foam:      rgba(220, 248, 255, 0.55);
+
+    --sand:      #e6cf95;
+    --sand-edge: #d3b877;
+    --grass-1:   #77bd4c;
+    --grass-2:   #5da437;
+    --grass-3:   #47892b;
+    --forest:    #35761f;
+    --tree:      #2f6b1e;
+    --tree-top:  #46912c;
+    --rock:      #8b8f98;
+    --rock-2:    #6f747e;
+    --snow:      #f2f7fc;
+    --road:      #cbb886;
+    --building:  #b9532f;
+    --building-2:#8f3d21;
+
+    --node:      #ec4740;
+    --node-dark: #b8281f;
+    --node-ring: rgba(236, 71, 64, 0.35);
+    --cyan:      #21d4d4;
+    --gold:      #ffcb3d;
+
+    --hud-panel:  rgba(12, 26, 33, 0.86);
+    --hud-line:   rgba(180, 240, 255, 0.28);
+    --hud-text:   #eaf6fb;
+    --hud-dim:    #93b4c2;
+    --sky-top:    #63c6e6;
+    --sky-bottom: #2b7ea1;
+
+    --font-title: 'Black Ops One', 'Arial Black', system-ui, sans-serif;
+    --font-ui:    'Chakra Petch', 'Segoe UI', system-ui, sans-serif;
+    --font-pixel: 'Press Start 2P', 'Chakra Petch', monospace;
+}
+
+/* ---------- PALETTE NUIT (opérations nocturnes) ---------- */
+[data-theme="dark"] {
+    --ocean-1:   #123047;
+    --ocean-2:   #0b2032;
+    --ocean-3:   #061320;
+    --ocean-glow: rgba(53, 224, 224, 0.22);
+    --foam:      rgba(120, 200, 220, 0.30);
+
+    --sand:      #4a4a5e;
+    --sand-edge: #3a3a4c;
+    --grass-1:   #2f6040;
+    --grass-2:   #274f34;
+    --grass-3:   #1f4029;
+    --forest:    #1b3a24;
+    --tree:      #17331f;
+    --tree-top:  #245231;
+    --rock:      #545a68;
+    --rock-2:    #3d4250;
+    --snow:      #aebfce;
+    --road:      #4a4030;
+    --building:  #6a3320;
+    --building-2:#4a2416;
+
+    --node:      #ff5a4f;
+    --node-dark: #c02a20;
+    --node-ring: rgba(255, 90, 79, 0.40);
+    --cyan:      #35e0e0;
+    --gold:      #ffd45e;
+
+    --hud-panel:  rgba(6, 16, 22, 0.90);
+    --hud-line:   rgba(53, 224, 224, 0.32);
+    --hud-text:   #eafcff;
+    --hud-dim:    #6f97a6;
+    --sky-top:    #0a1622;
+    --sky-bottom: #061018;
+}
+
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body {
+    font-family: var(--font-ui);
+    background: var(--ocean-3);
+    color: var(--hud-text);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   1. SCÈNE (carte plein écran)
+   ========================================================================== */
+.scene { position: fixed; inset: 0; overflow: hidden; background: linear-gradient(180deg, var(--sky-bottom), var(--ocean-3)); }
+.map-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.map-svg * { transition: fill 0.5s ease, stroke 0.5s ease; }
+
+/* Léger flottement d'ensemble pour donner vie à la carte. */
+.map-float { transform-box: fill-box; animation: mapFloat 14s ease-in-out infinite; transform-origin: center; }
+@keyframes mapFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+/* Nuages qui dérivent */
+.cloud { fill: #ffffff; opacity: 0.72; }
+[data-theme="dark"] .cloud { fill: #9fb8c8; opacity: 0.14; }
+.cloud-layer > g { animation: drift linear infinite; }
+@keyframes drift { from { transform: translateX(-260px); } to { transform: translateX(1900px); } }
+
+/* Chatoiement de l'eau autour de l'île */
+.ocean-ring { fill: none; stroke: var(--ocean-glow); animation: ripple 6s ease-in-out infinite; }
+@keyframes ripple { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+/* ==========================================================================
+   2. NODES (missions)
+   ========================================================================== */
+.node { cursor: pointer; }
+.node-hex { fill: var(--node); stroke: #fff; stroke-width: 3; transition: transform 0.2s ease, fill 0.3s ease; transform-box: fill-box; transform-origin: center; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
+.node-ring-pulse { fill: none; stroke: var(--node); stroke-width: 3; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.node.is-current .node-ring-pulse { animation: nodePulse 1.8s ease-out infinite; }
+@keyframes nodePulse { 0% { opacity: 0.7; transform: scale(0.6); } 100% { opacity: 0; transform: scale(1.8); } }
+.node-num { font-family: var(--font-pixel); font-size: 13px; fill: #fff; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.node:hover .node-hex,
+.node:focus-visible .node-hex { transform: scale(1.18); fill: var(--gold); }
+.node:focus-visible { outline: none; }
+.node:focus-visible .node-hex { stroke: var(--cyan); }
+.node.is-current .node-hex { fill: var(--node); }
+
+/* Fanion de nom au-dessus du node */
+.node-flag { opacity: 0; transform: translateY(6px); transition: opacity 0.25s ease, transform 0.25s ease; pointer-events: none; }
+.node:hover .node-flag,
+.node:focus-visible .node-flag,
+.node.is-current .node-flag { opacity: 1; transform: translateY(0); }
+.node-flag rect { fill: var(--hud-panel); stroke: var(--hud-line); stroke-width: 1.5; }
+.node-flag text { font-family: var(--font-ui); font-weight: 600; font-size: 17px; fill: var(--hud-text); text-anchor: middle; dominant-baseline: central; letter-spacing: 0.5px; }
+
+/* Trail pointillé reliant les missions */
+.trail { fill: none; stroke: #fff; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 2 18; opacity: 0.5; }
+[data-theme="dark"] .trail { stroke: var(--cyan); opacity: 0.4; }
+
+/* ==========================================================================
+   3. AVATAR (opérateur) — élément HTML posé au-dessus du SVG
+   ========================================================================== */
+.avatar { position: fixed; z-index: 12; width: 52px; height: 66px; margin-left: -26px; margin-top: -58px; opacity: 0; pointer-events: none; }
+.avatar-shadow { position: absolute; left: 50%; bottom: -4px; transform: translateX(-50%); width: 34px; height: 9px; background: radial-gradient(ellipse at center, rgba(0,0,0,0.35), transparent 70%); }
+.avatar-hop { width: 100%; height: 100%; }
+.avatar.hop .avatar-hop { animation: hop 0.6s ease; }
+@keyframes hop { 0% { transform: translateY(0); } 35% { transform: translateY(-22px); } 60% { transform: translateY(-26px); } 100% { transform: translateY(0); } }
+.avatar-svg { width: 100%; height: 100%; overflow: visible; image-rendering: pixelated; }
+.avatar-bob { animation: bob 1.5s ease-in-out infinite; transform-box: fill-box; transform-origin: bottom center; }
+@keyframes bob { 0%, 100% { transform: translateY(0) scaleY(1); } 50% { transform: translateY(-1.2px) scaleY(1.03); } }
+
+/* ==========================================================================
+   4. HUD
+   ========================================================================== */
+.hud { position: fixed; inset: 0; pointer-events: none; z-index: 20; }
+.hud > * { pointer-events: auto; }
+
+/* Coins « viseur » */
+.hud-corner { position: fixed; width: 34px; height: 34px; border: 2px solid var(--hud-line); pointer-events: none; }
+.hud-corner.tl { top: 16px; left: 16px; border-right: none; border-bottom: none; }
+.hud-corner.tr { top: 16px; right: 16px; border-left: none; border-bottom: none; }
+.hud-corner.bl { bottom: 16px; left: 16px; border-right: none; border-top: none; }
+.hud-corner.br { bottom: 16px; right: 16px; border-left: none; border-top: none; }
+
+/* Titre / logo */
+.hud-title { position: fixed; top: 26px; left: 34px; }
+.hud-title h1 { font-family: var(--font-title); font-size: clamp(1.5rem, 3.4vw, 2.6rem); line-height: 0.95; letter-spacing: 1px; color: var(--hud-text); text-shadow: 3px 3px 0 rgba(0,0,0,0.35); }
+.hud-title .tag { display: block; margin-top: 6px; font-family: var(--font-pixel); font-size: 0.5rem; color: var(--cyan); letter-spacing: 1px; }
+
+/* Actions haut-droite */
+.hud-actions { position: fixed; top: 26px; right: 34px; display: flex; gap: 0.6rem; align-items: center; }
+.game-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-ui); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.5px; color: var(--hud-text); background: var(--hud-panel); border: 2px solid var(--hud-line); padding: 0.5rem 0.9rem; cursor: pointer; text-transform: uppercase; transition: transform 0.15s ease, border-color 0.2s ease, color 0.2s ease; clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); }
+.game-btn:hover { transform: translateY(-2px); border-color: var(--cyan); color: var(--cyan); }
+.game-btn svg { width: 15px; height: 15px; }
+.game-btn .icon-sun { display: none; }
+[data-theme="dark"] .game-btn .icon-sun { display: block; }
+[data-theme="dark"] .game-btn .icon-moon { display: none; }
+
+/* Bandeau bas — threat level + mission sélectionnée */
+.hud-brief { position: fixed; left: 50%; transform: translateX(-50%); bottom: 26px; width: min(680px, calc(100% - 40px)); background: var(--hud-panel); border: 2px solid var(--hud-line); padding: 0.9rem 1.4rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px); backdrop-filter: blur(6px); }
+.hud-brief-left { min-width: 0; }
+.threat { font-family: var(--font-pixel); font-size: 0.5rem; letter-spacing: 1px; color: var(--hud-dim); margin-bottom: 0.45rem; }
+.threat b { color: var(--node); }
+.hud-brief h2 { font-family: var(--font-title); font-size: clamp(1rem, 2.4vw, 1.4rem); color: var(--hud-text); letter-spacing: 0.5px; line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.deploy-btn { flex-shrink: 0; font-family: var(--font-title); font-size: 0.95rem; letter-spacing: 1px; color: #111; background: var(--gold); border: none; padding: 0.7rem 1.3rem; cursor: pointer; text-transform: uppercase; transition: transform 0.15s ease, background 0.2s ease; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); animation: deployPulse 1.6s ease-in-out infinite; }
+.deploy-btn:hover { transform: scale(1.05); background: #ffd968; }
+@keyframes deployPulse { 0%, 100% { box-shadow: 0 0 0 0 var(--node-ring); } 50% { box-shadow: 0 0 0 8px transparent; } }
+
+/* Aide clavier */
+.hud-help { position: fixed; left: 34px; bottom: 30px; font-family: var(--font-ui); font-size: 0.66rem; color: var(--hud-dim); letter-spacing: 0.5px; display: flex; gap: 0.6rem; align-items: center; }
+.hud-help .key { border: 1px solid var(--hud-line); border-radius: 3px; padding: 0.1rem 0.4rem; font-family: var(--font-pixel); font-size: 0.5rem; color: var(--hud-text); }
+
+/* Scanlines / grain léger sur toute la scène */
+.scanlines { position: fixed; inset: 0; pointer-events: none; z-index: 15; opacity: 0.35; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.06) 0 1px, transparent 1px 3px); mix-blend-mode: multiply; }
+[data-theme="dark"] .scanlines { opacity: 0.5; }
+
+/* ==========================================================================
+   5. PANNEAU DE BRIEFING (une section = une mission)
+   ========================================================================== */
+.mission { position: fixed; inset: 0; z-index: 40; display: none; align-items: stretch; justify-content: flex-end; }
+.mission.open { display: flex; }
+.mission-backdrop { position: absolute; inset: 0; background: rgba(4, 12, 18, 0.55); backdrop-filter: blur(3px); opacity: 0; transition: opacity 0.3s ease; }
+.mission.open .mission-backdrop { opacity: 1; }
+
+.mission-panel { position: relative; width: min(760px, 100%); height: 100%; background: var(--hud-panel); border-left: 2px solid var(--hud-line); overflow-y: auto; transform: translateX(40px); opacity: 0; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; backdrop-filter: blur(10px); }
+.mission.open .mission-panel { transform: translateX(0); opacity: 1; }
+
+.mission-head { position: sticky; top: 0; z-index: 2; padding: 1.6rem 2.2rem 1.2rem; background: linear-gradient(180deg, var(--hud-panel), rgba(12,26,33,0.6)); border-bottom: 2px solid var(--hud-line); display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.mission-code { font-family: var(--font-pixel); font-size: 0.5rem; color: var(--cyan); letter-spacing: 1px; margin-bottom: 0.7rem; }
+.mission-head h2 { font-family: var(--font-title); font-size: clamp(1.4rem, 3.5vw, 2.1rem); color: var(--hud-text); letter-spacing: 0.5px; line-height: 1; }
+.mission-threat { margin-top: 0.7rem; font-family: var(--font-ui); font-weight: 600; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; color: var(--hud-dim); }
+.mission-threat b { color: var(--node); }
+
+.abort-btn { flex-shrink: 0; display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--font-ui); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--hud-text); background: transparent; border: 2px solid var(--hud-line); padding: 0.45rem 0.8rem; cursor: pointer; transition: border-color 0.2s ease, color 0.2s ease; }
+.abort-btn:hover { border-color: var(--node); color: var(--node); }
+.abort-btn svg { width: 13px; height: 13px; }
+
+.mission-body { padding: 1.8rem 2.2rem 3rem; }
+.mission-body p { font-family: var(--font-ui); font-weight: 300; font-size: 0.92rem; line-height: 1.75; color: var(--hud-text); margin-bottom: 1rem; }
+.mission-body p.dim { color: var(--hud-dim); }
+.mission-body strong { color: var(--cyan); font-weight: 600; }
+.mission-body h3 { font-family: var(--font-title); font-size: 1rem; color: var(--hud-text); letter-spacing: 0.5px; margin: 2rem 0 1rem; }
+
+/* Étiquette de section « intel » */
+.intel-label { display: inline-block; font-family: var(--font-pixel); font-size: 0.5rem; letter-spacing: 1px; color: var(--gold); border: 1px solid var(--hud-line); padding: 0.35rem 0.6rem; margin-bottom: 1.2rem; }
+
+/* Carte générique « dossier » dans un briefing */
+.dossier { background: rgba(255,255,255,0.03); border: 1px solid var(--hud-line); padding: 1.3rem 1.5rem; margin-bottom: 1rem; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease; }
+.dossier:hover { border-color: var(--cyan); transform: translateX(4px); }
+.dossier-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.7rem; }
+.dossier-tag { font-family: var(--font-ui); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 0.2rem 0.6rem; border: 1px solid var(--hud-line); color: var(--hud-dim); }
+.dossier-tag.hot { border-color: var(--node); color: var(--node); }
+.dossier h4 { font-family: var(--font-ui); font-weight: 600; font-size: 1rem; color: var(--hud-text); margin-bottom: 0.4rem; letter-spacing: 0.3px; }
+.dossier p { font-size: 0.82rem !important; color: var(--hud-dim) !important; margin-bottom: 0 !important; }
+.dossier .techs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.9rem; padding-top: 0.8rem; border-top: 1px solid var(--hud-line); }
+.dossier .tech { font-family: var(--font-pixel); font-size: 0.44rem; color: var(--cyan); letter-spacing: 0.5px; padding: 0.3rem 0.5rem; background: rgba(53,224,224,0.06); }
+
+/* Timeline « intel » verticale */
+.intel-timeline { list-style: none; position: relative; padding-left: 1.8rem; margin: 0.5rem 0 0.5rem; }
+.intel-timeline::before { content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 2px; background: var(--hud-line); }
+.intel-timeline li { position: relative; padding-bottom: 1.5rem; }
+.intel-timeline li:last-child { padding-bottom: 0; }
+.intel-timeline li::before { content: ''; position: absolute; left: -1.8rem; top: 4px; width: 12px; height: 12px; background: var(--node); border: 2px solid var(--hud-panel); transform: translateX(-1px) rotate(45deg); }
+.intel-timeline li:first-child::before { background: var(--cyan); }
+.intel-date { font-family: var(--font-pixel); font-size: 0.46rem; color: var(--gold); letter-spacing: 0.5px; }
+.intel-timeline h4 { font-family: var(--font-ui); font-weight: 600; font-size: 0.95rem; color: var(--hud-text); margin: 0.5rem 0 0.3rem; }
+.intel-timeline p { font-size: 0.8rem !important; color: var(--hud-dim) !important; margin: 0 !important; line-height: 1.6 !important; }
+
+/* Boutons d'action dans un briefing (CV, liens…) */
+.brief-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.2rem; }
+.brief-link { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-ui); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--hud-text); background: rgba(255,255,255,0.04); border: 2px solid var(--hud-line); padding: 0.6rem 1.1rem; text-decoration: none; cursor: pointer; transition: border-color 0.2s ease, color 0.2s ease, transform 0.15s ease; }
+.brief-link:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-2px); }
+.brief-link.primary { background: var(--gold); color: #111; border-color: var(--gold); }
+.brief-link.primary:hover { background: #ffd968; color: #111; }
+.brief-link svg { width: 15px; height: 15px; }
+
+/* Grille des contacts */
+.comms { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+.comms a { display: flex; flex-direction: column; align-items: center; gap: 0.7rem; padding: 1.8rem 1rem; border: 2px solid var(--hud-line); text-decoration: none; color: var(--hud-text); transition: border-color 0.2s ease, transform 0.2s ease, color 0.2s ease; clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px); }
+.comms a:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-4px); }
+.comms svg { width: 34px; height: 34px; }
+.comms span { font-family: var(--font-ui); font-weight: 600; letter-spacing: 0.5px; }
+
+/* ==========================================================================
+   6. INTRO (première visite : petit "boot")
+   ========================================================================== */
+.boot { position: fixed; inset: 0; z-index: 60; background: var(--ocean-3); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1.4rem; transition: opacity 0.6s ease; }
+.boot.done { opacity: 0; pointer-events: none; }
+.boot-logo { font-family: var(--font-title); font-size: clamp(2rem, 7vw, 4rem); color: var(--hud-text); letter-spacing: 2px; text-shadow: 4px 4px 0 var(--node); }
+.boot-bar { width: min(300px, 70vw); height: 10px; border: 2px solid var(--hud-line); overflow: hidden; }
+.boot-bar span { display: block; height: 100%; width: 0; background: var(--cyan); animation: bootLoad 1.5s ease forwards; }
+@keyframes bootLoad { to { width: 100%; } }
+.boot-txt { font-family: var(--font-pixel); font-size: 0.5rem; color: var(--hud-dim); letter-spacing: 1px; }
+
+/* ==========================================================================
+   7. RESPONSIVE
+   ========================================================================== */
+.hide-mobile { display: inline; }
+
+@media (max-width: 720px) {
+    .hud-title { top: 14px; left: 16px; max-width: 44vw; }
+    .hud-title h1 { font-size: 1.15rem; text-shadow: 2px 2px 0 rgba(0,0,0,0.35); }
+    .hud-title .tag { font-size: 0.4rem; margin-top: 3px; }
+    .hud-actions { top: 14px; right: 16px; gap: 0.4rem; }
+    .game-btn { padding: 0.42rem 0.6rem; font-size: 0.62rem; }
+    .hide-mobile { display: none; }
+    .hud-help { display: none; }
+    .hud-brief { bottom: 14px; padding: 0.7rem 0.9rem; }
+    .hud-brief h2 { font-size: 1rem; }
+    .deploy-btn { font-size: 0.78rem; padding: 0.6rem 0.9rem; }
+    .hud-corner { width: 20px; height: 20px; }
+    .mission-panel { width: 100%; border-left: none; }
+    .mission-head, .mission-body { padding-left: 1.3rem; padding-right: 1.3rem; }
+    .comms { grid-template-columns: 1fr; }
+}
+
+/* Respect des animations réduites : on fige les boucles décoratives. */
+@media (prefers-reduced-motion: reduce) {
+    .map-float, .cloud-layer > g, .ocean-ring, .avatar-bob, .node.is-current .node-ring-pulse, .deploy-btn, .boot-bar span { animation: none !important; }
+    #avatar { transition: none; }
+}
