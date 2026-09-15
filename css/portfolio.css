@@ -161,7 +161,10 @@ body { overflow-x: hidden; min-height: 100vh; }
     .logo-wee           { background: #FFFFFF; border-color: #7BA8C4; }
     .logo-descartes     { background: #FFFFFF; border-color: #C63B3B; }
     .logo-ipssi img, .logo-42 img { width: 100%; height: 100%; object-fit: cover; }
-    .logo-wee img, .logo-descartes img { width: 30px; height: 30px; object-fit: contain; }
+    .logo-descartes img { width: 30px; height: 30px; object-fit: contain; }
+    /* Logo au format bandeau : illisible s'il est réduit en entier dans la
+       pastille, on le cadre donc sur la marque, à gauche. */
+    .logo-wee img { width: 100%; height: 100%; object-fit: cover; object-position: left center; }
 }
 
 .timeline-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
@@ -322,7 +325,7 @@ body { overflow-x: hidden; min-height: 100vh; }
 .certif-card-link:hover .certif-read-more { color: var(--text-primary); }
 
 /* Vignettes des 6 modules, générées par js/portfolio.js */
-.certif-modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.8rem; padding: 1.4rem 2rem 1.6rem; }
+.certif-modules-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.8rem; padding: 1.4rem 2rem 1.6rem; }
 .certif-module { background: var(--bg-secondary); border-radius: 10px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative; display: flex; flex-direction: column; }
 .certif-module:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); }
 .certif-module img { width: 100%; display: block; aspect-ratio: 4 / 3; object-fit: cover; }
@@ -388,8 +391,12 @@ body { overflow-x: hidden; min-height: 100vh; }
     .article-modal { padding: 1rem; }
     .article-modal-content { padding: 2.5rem 1.5rem 1.5rem; }
 
-    .certif-modules-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); padding: 1.2rem 1.4rem 1.4rem; }
+    .certif-modules-grid { grid-template-columns: repeat(2, 1fr); padding: 1.2rem 1.4rem 1.4rem; }
     .certif-card-header { padding: 1.3rem 1.4rem 1.2rem; flex-direction: column; align-items: flex-start; }
+}
+
+@media (min-width: 769px) and (max-width: 1000px) {
+    .certif-modules-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 480px) {

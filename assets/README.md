@@ -16,11 +16,16 @@ le texte alternatif s'affiche à la place (voir `js/portfolio.js`, section 2).
 | `tableau-synthese.png`          | Aperçu du tableau de synthèse (E5)   | PNG, ~600 px de large   |
 | `tableau-synthese.pdf`          | Téléchargement + visionneuse         | PDF                     |
 | `script1.png`                   | Visuel de la carte *catphisher*      | PNG, ratio ~16/9        |
-| `portfolio.png`                 | Image de partage (OpenGraph)         | PNG **1200 × 630 px**   |
+| `portfolio.png`                 | Image de partage (OpenGraph)         | PNG **1200 × 630 px** † |
 | `ipssi.webp`                    | Logo timeline — IPSSI                | carré, fond opaque      |
 | `wee-technology.png`            | Logo timeline — Wee Technology       | carré, fond transparent |
 | `42.png`                        | Logo timeline — École 42             | carré, fond opaque      |
 | `descartes.png`                 | Logo timeline — Lycée Descartes      | carré, fond transparent |
+
+† `portfolio.png` a été généré à partir de la page d'accueil (rendu 2400 × 1260,
+soit 1200 × 630 en densité double). C'est la vignette affichée quand le lien du
+portfolio est partagé sur LinkedIn, Discord ou dans un message. Remplace-le
+librement par un visuel dessiné — garde juste le ratio 1,91:1.
 
 ## Attestations CNIL (facultatif)
 
