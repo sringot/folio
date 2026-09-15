@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('theme');
+                var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) { /* stockage indisponible : on reste en clair */ }
+        })();
+    </script>
+
+    <title>Certification CNIL — Sacha Ringot</title>
+    <meta name="description" content="Parcours de formation « L'Atelier RGPD » de la CNIL : 6 modules validés en novembre 2025, dans le cadre du BTS SIO option SISR.">
+    <meta name="theme-color" content="#EDE8DE">
+    <link rel="canonical" href="https://sacharingot.fr/certif-cnil.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:title" content="Certification CNIL — Protection des données (RGPD)">
+    <meta property="og:description" content="6 modules de L'Atelier RGPD validés auprès de la CNIL — contexte, comparaison et résultats.">
+    <meta property="og:url" content="https://sacharingot.fr/certif-cnil.html">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23332C22'/><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='46' fill='%23F6F2EA' dominant-baseline='middle' text-anchor='middle'>SR</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/certif.css">
+</head>
+<body>
+
+<!-- ======================================================================
+     BARRE SUPÉRIEURE
+     ====================================================================== -->
+<header class="topbar">
+    <div class="topbar-left">
+        <a href="index.html" class="back-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+            Portfolio
+        </a>
+        <div class="topbar-sep"></div>
+        <span class="topbar-title">Certification CNIL — RGPD</span>
+    </div>
+    <div class="topbar-right">
+        <span class="slide-counter" id="slideCounter">01 / 07</span>
+        <button type="button" class="theme-btn" data-theme-toggle aria-label="Activer le thème sombre">
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+    </div>
+</header>
+
+<div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+
+<p class="visually-hidden" id="slideLive" role="status" aria-live="polite"></p>
+
+<!-- ======================================================================
+     DIAPOSITIVES
+     ====================================================================== -->
+<main class="slides-wrap">
+    <div class="slides-track" id="slidesTrack">
+
+        <!-- ─── 1 — TITRE ─────────────────────────────────────────────── -->
+        <section class="slide active" aria-label="Diapositive 1 : titre">
+            <div class="slide-inner">
+                <div class="s1-layout">
+                    <div>
+                        <p class="eyebrow"><span class="eyebrow-dot"></span>Présentation certification</p>
+                        <h1 class="slide-h1">Protection<br>des données<br><em>&amp; RGPD</em></h1>
+                        <p class="s1-sub">Parcours de formation officiel délivré par la CNIL — 6 modules validés en novembre 2025 dans le cadre de mon BTS SIO option SISR.</p>
+                        <div class="s1-badges">
+                            <span class="badge-cnil">
+                                <span class="badge-cnil-icon" aria-hidden="true">CNIL</span>
+                                Commission Nationale de l'Informatique et des Libertés
+                            </span>
+                            <span class="badge-obtained">Certification obtenue · 2025</span>
+                        </div>
+                    </div>
+                    <div class="s1-visual">
+                        <div class="s1-big-logo"><span>CNIL</span></div>
+                        <p class="s1-logo-caption">cnil.fr<br>Autorité de contrôle RGPD</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── 2 — L'ORGANISME ───────────────────────────────────────── -->
+        <section class="slide" aria-label="Diapositive 2 : la CNIL">
+            <div class="slide-inner">
+                <p class="eyebrow"><span class="eyebrow-dot"></span>L'organisme</p>
+                <h2 class="slide-h2">Qu'est-ce que<br>la CNIL ?</h2>
+
+                <div class="cnil-hero" style="margin-top:1.4rem;">
+                    <div class="cnil-hero-logo"><span>CNIL</span></div>
+                    <div>
+                        <h3>Commission Nationale de l'Informatique et des Libertés</h3>
+                        <p>Autorité administrative indépendante française · Autorité de contrôle RGPD depuis 2018</p>
+                    </div>
+                </div>
+
+                <ul class="info-list">
+                    <li>
+                        <span class="info-dot" aria-hidden="true"></span>
+                        <span>Créée en 1978 par la loi Informatique et Libertés, la CNIL est le <strong>régulateur français indépendant</strong> chargé de protéger les données personnelles des citoyens face aux usages du numérique.</span>
+                    </li>
+                    <li>
+                        <span class="info-dot" aria-hidden="true"></span>
+                        <span>Depuis le RGPD en 2018, elle est l'autorité de contrôle officielle en France. Elle peut prononcer des sanctions allant jusqu'à <strong>4 % du chiffre d'affaires mondial</strong> d'une entreprise.</span>
+                    </li>
+                    <li>
+                        <span class="info-dot" aria-hidden="true"></span>
+                        <span>Sur son portail « L'Atelier RGPD », la CNIL propose un parcours de formation <strong>entièrement gratuit</strong>, reconnu comme la référence nationale pour tout professionnel IT.</span>
+                    </li>
+                    <li>
+                        <span class="info-dot" aria-hidden="true"></span>
+                        <span>Chaque module se conclut par un QCM de validation. En cas de réussite, une <strong>attestation officielle</strong> est délivrée directement par la CNIL.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ─── 3 — LES MODULES ───────────────────────────────────────── -->
+        <section class="slide" aria-label="Diapositive 3 : les modules">
+            <div class="slide-inner">
+                <p class="eyebrow"><span class="eyebrow-dot"></span>La certification</p>
+                <h2 class="slide-h2">L'Atelier RGPD —<br>6 modules</h2>
+
+                <div class="modules-list">
+                    <div class="module-row">
+                        <span class="module-num">01</span>
+                        <span class="module-name">Le RGPD et ses notions clés</span>
+                        <span class="module-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-label="Module validé" role="img"><polyline points="20 6 9 17 4 12"/></svg></span>
+                    </div>
+                    <div class="module-row">
+                        <span class="module-num">02</span>
+                        <span class="module-name">Les principes de la protection des données</span>
+                        <span class="module-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-label="Module validé" role="img"><polyline points="20 6 9 17 4 12"/></svg></span>
+                    </div>
+                    <div class="module-row">
+                        <span class="module-num">03</span>
+                        <span class="module-name">Les responsabilités des acteurs</span>
+                        <span class="module-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-label="Module validé" role="img"><polyline points="20 6 9 17 4 12"/></svg></span>
+                    </div>
+                    <div class="module-row">
+                        <span class="module-num">04</span>
+                        <span class="module-name">Le DPO et les outils de la conformité</span>
+                        <span class="module-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-label="Module validé" role="img"><polyline points="20 6 9 17 4 12"/></svg></span>
+                    </div>
+                    <div class="module-row">
+                        <span class="module-num">05</span>
+                        <span class="module-name">Les collectivités territoriales</span>
+                        <span class="module-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-label="Module validé" role="img"><polyline points="20 6 9 17 4 12"/></svg></span>
+                    </div>
+                    <div class="module-row">
+                        <span class="module-num">06</span>
+                        <span class="module-name">Travail et données personnelles</span>
+                        <span class="module-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-label="Module validé" role="img"><polyline points="20 6 9 17 4 12"/></svg></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── 4 — POURQUOI CETTE CERTIFICATION ──────────────────────── -->
+        <section class="slide" aria-label="Diapositive 4 : contexte">
+            <div class="slide-inner">
+                <p class="eyebrow"><span class="eyebrow-dot"></span>Contexte</p>
+                <h2 class="slide-h2">Pourquoi passer<br>cette certification ?</h2>
+
+                <div class="why-grid">
+                    <div class="why-card">
+                        <div class="why-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        </div>
+                        <h3>Un futur métier exposé aux données</h3>
+                        <p>En BTS SIO SISR, je travaille sur des environnements qui traitent des données personnelles : annuaires Active Directory, accès distants, sauvegardes. Connaître le cadre légal fait partie du métier.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                        </div>
+                        <h3>Une compétence attendue en entreprise</h3>
+                        <p>Le RGPD s'applique à toutes les structures. Un futur administrateur systèmes doit savoir identifier un risque de conformité et adopter les bons réflexes dès son premier poste.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <h3>Un choix cohérent avec mon projet pro</h3>
+                        <p>Mon objectif est d'évoluer vers la cybersécurité. La protection des données personnelles en est un pilier central — autant le formaliser dès la formation initiale.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+                        </div>
+                        <h3>Une attestation officielle valorisable</h3>
+                        <p>La certification est gratuite, accessible en ligne, et délivrée directement par le régulateur. Elle apporte une preuve concrète d'engagement, visible sur mon CV dès maintenant.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── 5 — POSITIONNEMENT ────────────────────────────────────── -->
+        <section class="slide" aria-label="Diapositive 5 : positionnement">
+            <div class="slide-inner">
+                <p class="eyebrow"><span class="eyebrow-dot"></span>Positionnement</p>
+                <h2 class="slide-h2">Comparaison avec d'autres<br>certifications RGPD</h2>
+
+                <div class="comp-scroll">
+                    <table class="comp-table">
+                        <caption class="visually-hidden">Comparaison de quatre certifications RGPD selon le niveau, le public cible et le coût.</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Certification</th>
+                                <th scope="col">Niveau</th>
+                                <th scope="col">Public cible</th>
+                                <th scope="col">Coût</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="row-hl">
+                                <th scope="row"><strong>CNIL (ce parcours)</strong></th>
+                                <td>Fondamentaux</td>
+                                <td>Tout professionnel IT</td>
+                                <td><span class="pill pill-green">Gratuit</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">IAPP CIPP/E</th>
+                                <td>Avancé</td>
+                                <td>DPO, juristes</td>
+                                <td><span class="pill pill-gray">~550 €</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Certification DPO AFNOR / LSTI</th>
+                                <td>Expert</td>
+                                <td>DPO en poste</td>
+                                <td><span class="pill pill-gray">Expérience requise</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">ISO 27001 Lead Implementer</th>
+                                <td>Expert</td>
+                                <td>RSSI, auditeurs</td>
+                                <td><span class="pill pill-gray">~1 500 €</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="comp-why">
+                    <div class="comp-why-item">
+                        <div class="comp-why-num" aria-hidden="true">01</div>
+                        <h4>La source fait autorité</h4>
+                        <p>La formation vient directement du régulateur qui contrôle et sanctionne. Pas d'intermédiaire — c'est la version officielle du droit applicable.</p>
+                    </div>
+                    <div class="comp-why-item">
+                        <div class="comp-why-num" aria-hidden="true">02</div>
+                        <h4>Accessible à ce stade</h4>
+                        <p>Les autres certifications exigent un budget, une expérience ou un poste de DPO en exercice. Celle-ci est gratuite, en français, sans prérequis.</p>
+                    </div>
+                    <div class="comp-why-item">
+                        <div class="comp-why-num" aria-hidden="true">03</div>
+                        <h4>Ciblée technicien IT</h4>
+                        <p>IAPP CIPP/E et DPO AFNOR s'adressent à des juristes ou experts. La CNIL cible exactement un technicien systèmes en début de carrière.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── 6 — RÉSULTATS ─────────────────────────────────────────── -->
+        <section class="slide" aria-label="Diapositive 6 : résultats" data-animate-scores>
+            <div class="slide-inner">
+                <p class="eyebrow"><span class="eyebrow-dot"></span>Résultats</p>
+                <h2 class="slide-h2">Scores obtenus</h2>
+                <p class="results-intro">QCM de validation à la fin de chaque module — attestations officielles délivrées par la CNIL · Novembre 2025.</p>
+
+                <div class="results-grid" id="resultsGrid">
+                    <div class="result-card" data-score="93">
+                        <p class="result-mod">Module 01</p>
+                        <p class="result-name">Le RGPD et ses notions clés</p>
+                        <div class="result-bar-wrap"><div class="result-bar"></div></div>
+                        <p class="result-score"><span class="score-val">0</span> %</p>
+                    </div>
+                    <div class="result-card" data-score="91">
+                        <p class="result-mod">Module 02</p>
+                        <p class="result-name">Les principes de la protection des données</p>
+                        <div class="result-bar-wrap"><div class="result-bar"></div></div>
+                        <p class="result-score"><span class="score-val">0</span> %</p>
+                    </div>
+                    <div class="result-card" data-score="93">
+                        <p class="result-mod">Module 03</p>
+                        <p class="result-name">Les responsabilités des acteurs</p>
+                        <div class="result-bar-wrap"><div class="result-bar"></div></div>
+                        <p class="result-score"><span class="score-val">0</span> %</p>
+                    </div>
+                    <div class="result-card" data-score="80">
+                        <p class="result-mod">Module 04</p>
+                        <p class="result-name">Le DPO et les outils de la conformité</p>
+                        <div class="result-bar-wrap"><div class="result-bar"></div></div>
+                        <p class="result-score"><span class="score-val">0</span> %</p>
+                    </div>
+                    <div class="result-card" data-score="98">
+                        <p class="result-mod">Module 05</p>
+                        <p class="result-name">Les collectivités territoriales</p>
+                        <div class="result-bar-wrap"><div class="result-bar"></div></div>
+                        <p class="result-score"><span class="score-val">0</span> %</p>
+                    </div>
+                    <div class="result-card" data-score="80">
+                        <p class="result-mod">Module 06</p>
+                        <p class="result-name">Travail et données personnelles</p>
+                        <div class="result-bar-wrap"><div class="result-bar"></div></div>
+                        <p class="result-score"><span class="score-val">0</span> %</p>
+                    </div>
+                </div>
+
+                <div class="results-average" id="resultsAverage">
+                    <span class="avg-label">Moyenne générale</span>
+                    <span><span class="avg-value" id="avgValue">0</span><span class="avg-pct"> %</span></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── 7 — BILAN ─────────────────────────────────────────────── -->
+        <section class="slide" aria-label="Diapositive 7 : bilan">
+            <div class="slide-inner">
+                <p class="eyebrow"><span class="eyebrow-dot"></span>Bilan</p>
+
+                <div class="bilan-layout">
+                    <blockquote class="bilan-quote">
+                        <div class="bilan-quote-mark" aria-hidden="true">&ldquo;</div>
+                        <p>Cette certification m'a appris à voir les infrastructures que je configure différemment — chaque compte AD, chaque log, chaque accès distant implique des données personnelles et des responsabilités légales concrètes.</p>
+                        <cite class="bilan-quote-author">Sacha Ringot · BTS SIO SISR · Promotion 2025–2027</cite>
+                    </blockquote>
+
+                    <div class="bilan-items">
+                        <div class="bilan-item">
+                            <div class="bilan-num" aria-hidden="true">01</div>
+                            <h3>Cadre légal maîtrisé</h3>
+                            <p>Notions fondamentales du RGPD, bases légales du traitement, droits des personnes et obligations des responsables.</p>
+                        </div>
+                        <div class="bilan-item">
+                            <div class="bilan-num" aria-hidden="true">02</div>
+                            <h3>Rôles &amp; outils</h3>
+                            <p>Fonctionnement du DPO, registre des traitements, analyse d'impact (AIPD) et principes de Privacy by Design.</p>
+                        </div>
+                        <div class="bilan-item">
+                            <div class="bilan-num" aria-hidden="true">03</div>
+                            <h3>Application pro</h3>
+                            <p>Réflexes RGPD dans un contexte d'administration systèmes, de collectivités territoriales et de gestion des données RH.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<p class="hint">
+    <span class="kbd">←</span><span class="kbd">→</span> naviguer &nbsp;·&nbsp; <span class="kbd">Esc</span> portfolio
+</p>
+
+<!-- ======================================================================
+     BARRE INFÉRIEURE
+     ====================================================================== -->
+<nav class="bottom-nav" aria-label="Navigation entre les diapositives">
+    <button type="button" class="nav-btn" id="prevBtn" disabled aria-label="Diapositive précédente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="dots" id="dotsContainer"></div>
+    <button type="button" class="nav-btn" id="nextBtn" aria-label="Diapositive suivante">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+</nav>
+
+<script src="js/theme.js" defer></script>
+<script src="js/certif.js" defer></script>
+</body>
+</html>

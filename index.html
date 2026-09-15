@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Thème appliqué avant le premier rendu : évite le flash clair
+         quand le visiteur est en mode sombre. -->
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('theme');
+                var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) { /* stockage indisponible : on reste en clair */ }
+        })();
+    </script>
+
+    <title>Sacha Ringot — Portfolio SISR</title>
+    <meta name="description" content="Portfolio de Sacha Ringot, étudiant en BTS SIO SISR. Infrastructure, réseau et cybersécurité : pfSense, Active Directory, automatisation PowerShell.">
+    <meta name="author" content="Sacha Ringot">
+    <meta name="theme-color" content="#EDE8DE">
+    <link rel="canonical" href="https://sacharingot.fr/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="Sacha Ringot — Portfolio SISR">
+    <meta property="og:title" content="Sacha Ringot — Portfolio SISR">
+    <meta property="og:description" content="Découvrez mon parcours, mon laboratoire technique et mes réalisations (pfSense, Active Directory, automatisations PowerShell...).">
+    <meta property="og:url" content="https://sacharingot.fr/">
+    <meta property="og:image" content="https://sacharingot.fr/assets/portfolio.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23332C22'/><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='46' fill='%23F6F2EA' dominant-baseline='middle' text-anchor='middle'>SR</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" data-devicon>
+
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/portfolio.css">
+</head>
+<body>
+
+    <a class="skip-link" href="#main">Aller au contenu</a>
+
+    <!-- ==================================================================
+         BARRE DE NAVIGATION
+         ================================================================== -->
+    <nav class="top-navbar" id="topNavbar" aria-label="Navigation principale">
+        <div class="top-navbar-inner">
+            <button type="button" class="nav-logo" data-nav="home" aria-label="Retour à l'accueil">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3 9.5L12 3l9 6.5"/>
+                    <path d="M19 13v6a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-6"/>
+                </svg>
+            </button>
+
+            <div class="nav-links" id="navLinks">
+                <button type="button" class="nav-link" data-nav="parcours">Parcours</button>
+                <button type="button" class="nav-link" data-nav="missions">Réalisations Pro</button>
+                <button type="button" class="nav-link" data-nav="veille">Veille &amp; Lab</button>
+                <button type="button" class="nav-link" data-nav="contact">Contact</button>
+            </div>
+
+            <div class="nav-actions">
+                <button type="button" class="theme-toggle" data-theme-toggle aria-label="Activer le thème sombre">
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                </button>
+                <button type="button" class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <button type="button" data-nav="parcours">Parcours</button>
+        <button type="button" data-nav="missions">Réalisations Pro</button>
+        <button type="button" data-nav="veille">Veille &amp; Lab</button>
+        <button type="button" data-nav="contact">Contact</button>
+    </div>
+
+    <main id="main">
+
+    <!-- ==================================================================
+         VUE — ACCUEIL
+         ================================================================== -->
+    <section class="view home-view active visible" id="view-home" tabindex="-1" aria-label="Accueil">
+        <div class="home-content">
+            <p class="home-badge">Disponible pour de nouvelles missions</p>
+            <h1 class="home-name">Sacha<br>Ringot</h1>
+            <p class="home-title">Technicien Réseaux &amp; Systèmes</p>
+
+            <p class="home-presentation">
+                BTS SIO SISR en cours. J'ai découvert la cybersécurité et les réseaux il y a peu — et plus j'avance, plus ça m'accroche. L'objectif : aller jusqu'en master cybersécurité.
+            </p>
+
+            <div class="home-actions">
+                <button type="button" class="home-linkedin primary" data-nav="missions">
+                    Voir mes réalisations
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </button>
+                <a href="https://www.linkedin.com/in/sacha-ringot-170234378/" target="_blank" rel="noopener noreferrer" class="home-linkedin">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                        <rect x="2" y="9" width="4" height="12"/>
+                        <circle cx="4" cy="4" r="2"/>
+                    </svg>
+                    Voir mon profil LinkedIn
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================================================================
+         VUE — PARCOURS
+         ================================================================== -->
+    <section class="view section-view" id="view-parcours" tabindex="-1" aria-label="Parcours">
+        <div class="section-body">
+            <div class="section-intro">
+                <p class="section-label">01 — Parcours</p>
+                <h2 class="section-title">Formation<br>&amp; Expérience</h2>
+            </div>
+
+            <div class="about-me-block">
+                <h3>À propos de moi</h3>
+                <p>
+                    Je m'appelle Sacha Ringot, j'ai 19 ans et je suis en BTS SIO option SISR à l'IPSSI de Saint-Quentin-en-Yvelines. Mon parcours vers l'informatique n'était pas tracé d'avance — après un bac STMG et un passage à la Piscine de l'École 42, j'ai découvert les réseaux et la cybersécurité en entrant en formation.
+                </p>
+                <p>
+                    Depuis, plus j'avance, plus ça m'accroche. L'objectif est clair : continuer jusqu'en master cybersécurité et en faire mon métier.
+                </p>
+            </div>
+
+            <div class="cv-card-inline">
+                <button type="button" class="doc-preview" data-open-pdf="assets/RINGOT-Sacha-cv.pdf" data-doc-label="Curriculum Vitae — Sacha Ringot" aria-label="Agrandir l'aperçu du CV">
+                    <img src="assets/cv.png" alt="Aperçu du CV" class="zoomable-img" loading="lazy" decoding="async">
+                </button>
+                <div class="doc-card-v2-body">
+                    <h3>Mon Curriculum Vitae</h3>
+                    <p>Retrouvez l'ensemble de mon parcours, mes compétences techniques et mes expériences professionnelles dans mon CV détaillé.</p>
+                    <a href="assets/RINGOT-Sacha-cv.pdf" target="_blank" rel="noopener" download class="doc-download-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Télécharger le CV
+                    </a>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <article class="timeline-item timeline-right">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-logo logo-ipssi" title="IPSSI SQY">
+                        <img src="assets/ipssi.webp" alt="IPSSI" loading="lazy" decoding="async">
+                    </div>
+                    <div class="timeline-meta">
+                        <span class="timeline-date">2025 — 2027</span>
+                        <span class="timeline-tag active">En cours</span>
+                    </div>
+                    <h3 class="timeline-title">BTS SIO option SISR</h3>
+                    <p class="timeline-desc">IPSSI SQY — Formation en Services Informatiques aux Organisations, spécialité Solutions d'Infrastructure, Systèmes et Réseaux.</p>
+                </article>
+
+                <article class="timeline-item timeline-left">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-logo logo-wee" title="Wee Technology">
+                        <img src="assets/wee-technology.png" alt="Wee Technology" loading="lazy" decoding="async">
+                    </div>
+                    <div class="timeline-meta">
+                        <span class="timeline-date">2026</span>
+                        <span class="timeline-tag active">En cours</span>
+                    </div>
+                    <h3 class="timeline-title">Stage — Wee Technology</h3>
+                    <p class="timeline-desc">Technicien Réseaux &amp; Systèmes en entreprise — administration systèmes, infrastructure et support technique.</p>
+                </article>
+
+                <article class="timeline-item timeline-right">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-logo logo-42" title="École 42">
+                        <img src="assets/42.png" alt="École 42" loading="lazy" decoding="async">
+                    </div>
+                    <div class="timeline-meta">
+                        <span class="timeline-date">2025</span>
+                        <span class="timeline-tag">Expérience</span>
+                    </div>
+                    <h3 class="timeline-title">Piscine École 42</h3>
+                    <p class="timeline-desc">Paris — Immersion intensive de programmation (Langage C). Une expérience formatrice malgré l'échec, qui a renforcé ma détermination et ma capacité d'adaptation.</p>
+                </article>
+
+                <article class="timeline-item timeline-left">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-logo logo-descartes" title="Lycée Descartes">
+                        <img src="assets/descartes.png" alt="Lycée Descartes" loading="lazy" decoding="async">
+                    </div>
+                    <div class="timeline-meta">
+                        <span class="timeline-date">2024</span>
+                        <span class="timeline-tag">Obtenu</span>
+                    </div>
+                    <h3 class="timeline-title">Baccalauréat STMG</h3>
+                    <p class="timeline-desc">Lycée Descartes — Option Gestion Finance.</p>
+                </article>
+            </div>
+
+            <div class="certif-section">
+                <div class="certif-section-header">
+                    <h3>Certifications</h3>
+                    <p>Certifications obtenues et à venir dans le cadre de ma formation et de mon développement professionnel.</p>
+                </div>
+
+                <a class="certif-card-link" href="certif-cnil.html">
+                    <div class="certif-card">
+                        <div class="certif-card-header">
+                            <div class="certif-card-header-left">
+                                <div class="certif-logo"><span>CNIL</span></div>
+                                <div>
+                                    <h4>Certification CNIL — Protection des données (RGPD)</h4>
+                                    <p>Commission Nationale de l'Informatique et des Libertés · 6 modules</p>
+                                </div>
+                            </div>
+                            <div class="certif-card-header-right">
+                                <span class="certif-badge obtained">Obtenu</span>
+                                <span class="certif-read-more">Voir le détail &rarr;</span>
+                            </div>
+                        </div>
+                        <!-- Vignettes des 6 modules : générées par js/portfolio.js -->
+                        <div class="certif-modules-grid" id="cnilModulesGrid"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <footer class="section-footer"><p>© <span data-current-year>2026</span> Sacha Ringot</p></footer>
+    </section>
+
+    <!-- ==================================================================
+         VUE — RÉALISATIONS PROFESSIONNELLES
+         ================================================================== -->
+    <section class="view section-view" id="view-missions" tabindex="-1" aria-label="Réalisations professionnelles">
+        <div class="section-body">
+            <div class="section-intro">
+                <p class="section-label">02 — Réalisations professionnelles</p>
+                <h2 class="section-title">Réalisations<br>Professionnelles</h2>
+            </div>
+
+            <div class="filter-toggle-wrapper" id="filterToggleWrapper">
+                <button type="button" class="filter-toggle-btn" id="filterToggleBtn" aria-expanded="false" aria-controls="filterDropdown">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                    Filtrer
+                    <span class="filter-active-count" id="filterActiveCount">0</span>
+                    <svg class="filter-chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+
+                <div class="filter-dropdown" id="filterDropdown">
+                    <div class="filter-dropdown-inner">
+                        <div class="filter-group">
+                            <p class="filter-group-label" id="filter-cat-label">Catégorie</p>
+                            <div class="filter-group-chips" role="group" aria-labelledby="filter-cat-label">
+                                <button type="button" class="filter-chip active" data-filter="all"   data-type="category" aria-pressed="true">Tous</button>
+                                <button type="button" class="filter-chip"        data-filter="pro"   data-type="category" aria-pressed="false">Pro</button>
+                                <button type="button" class="filter-chip"        data-filter="ecole" data-type="category" aria-pressed="false">École</button>
+                                <button type="button" class="filter-chip"        data-filter="perso" data-type="category" aria-pressed="false">Perso</button>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <p class="filter-group-label" id="filter-epreuve-label">Épreuves BTS</p>
+                            <div class="filter-group-chips" role="group" aria-labelledby="filter-epreuve-label">
+                                <button type="button" class="filter-chip-skill" data-filter="e6" data-type="skill" aria-pressed="false">Épreuve E6 (Infrastructure complète)</button>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <p class="filter-group-label" id="filter-skill-label">Compétences BTS SIO</p>
+                            <div class="filter-group-chips" role="group" aria-labelledby="filter-skill-label">
+                                <button type="button" class="filter-chip-skill" data-filter="patrimoine" data-type="skill" aria-pressed="false">Gérer le patrimoine</button>
+                                <button type="button" class="filter-chip-skill" data-filter="incidents"  data-type="skill" aria-pressed="false">Répondre aux incidents</button>
+                                <button type="button" class="filter-chip-skill" data-filter="presence"   data-type="skill" aria-pressed="false">Développer la présence en ligne</button>
+                                <button type="button" class="filter-chip-skill" data-filter="projet"     data-type="skill" aria-pressed="false">Travailler en mode projet</button>
+                                <button type="button" class="filter-chip-skill" data-filter="service"    data-type="skill" aria-pressed="false">Mettre à disposition un service</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="missions-grid" id="missionsGrid">
+
+                <article class="mission-card card-visible" data-category="ecole" data-skills="patrimoine,service,e6">
+                    <div class="mission-card-tags">
+                        <span class="mission-type-tag">École / Lab</span>
+                        <span class="mission-competence-tag is-epreuve">Épreuve E6</span>
+                        <span class="mission-competence-tag">Gérer le patrimoine</span>
+                    </div>
+                    <h3>Déploiement d'une infrastructure complète (Épreuve E6)</h3>
+                    <p>Conception, déploiement et sécurisation d'une infrastructure réseau et systèmes complète de A à Z : pare-feu, routage, annuaire Active Directory, services (DNS, DHCP) et scripts d'automatisation.</p>
+                    <div class="tech-icons-row">
+                        <i class="devicon-pfsense-original colored tech-icon" role="img" aria-label="pfSense" title="pfSense" data-label="pfSense"></i>
+                        <i class="devicon-windows8-original colored tech-icon" role="img" aria-label="Windows Server" title="Windows Server" data-label="Windows Server"></i>
+                        <i class="devicon-debian-plain colored tech-icon" role="img" aria-label="Debian" title="Debian" data-label="Debian"></i>
+                        <i class="devicon-bash-plain colored tech-icon" role="img" aria-label="Bash" title="Bash" data-label="Bash"></i>
+                    </div>
+                </article>
+
+                <article class="mission-card card-visible" data-category="ecole" data-skills="patrimoine,service">
+                    <div class="mission-card-tags">
+                        <span class="mission-type-tag">École / Lab</span>
+                        <span class="mission-competence-tag">Gérer le patrimoine</span>
+                        <span class="mission-competence-tag">Service</span>
+                    </div>
+                    <h3>Architecture réseau sécurisée avec pfSense</h3>
+                    <p>Conception d'une topologie réseau via Draw.io et déploiement d'un pare-feu pfSense. Configuration des interfaces et règles de filtrage (Firewall).</p>
+                    <div class="tech-icons-row">
+                        <i class="devicon-pfsense-original colored tech-icon" role="img" aria-label="pfSense" title="pfSense" data-label="pfSense"></i>
+                    </div>
+                </article>
+
+                <article class="mission-card card-visible" data-category="ecole" data-skills="patrimoine,incidents,service">
+                    <div class="mission-card-tags">
+                        <span class="mission-type-tag">École / Lab</span>
+                        <span class="mission-competence-tag">Gérer le patrimoine</span>
+                        <span class="mission-competence-tag">Incidents</span>
+                    </div>
+                    <h3>Serveur DHCP automatisé (Full CLI / PowerShell)</h3>
+                    <p>Installation et configuration avancée d'un rôle DHCP sur Windows Server, réalisé entièrement en ligne de commande via des scripts PowerShell.</p>
+                    <div class="tech-icons-row">
+                        <i class="devicon-windows8-original colored tech-icon" role="img" aria-label="Windows Server" title="Windows Server" data-label="Windows Server"></i>
+                        <i class="devicon-powershell-plain colored tech-icon" role="img" aria-label="PowerShell" title="PowerShell" data-label="PowerShell"></i>
+                    </div>
+                </article>
+
+                <article class="mission-card card-visible" data-category="ecole" data-skills="patrimoine,service">
+                    <div class="mission-card-tags">
+                        <span class="mission-type-tag">École / Lab</span>
+                        <span class="mission-competence-tag">Gérer le patrimoine</span>
+                        <span class="mission-competence-tag">Service</span>
+                    </div>
+                    <h3>Déploiement Active Directory &amp; DNS (Full CLI)</h3>
+                    <p>Mise en place d'un contrôleur de domaine (AD DS) et DNS en environnement Server Core. Utilisation de scripts pour la création des OUs et utilisateurs.</p>
+                    <div class="tech-icons-row">
+                        <i class="devicon-windows8-original colored tech-icon" role="img" aria-label="Windows Server" title="Windows Server" data-label="Windows Server"></i>
+                        <i class="devicon-powershell-plain colored tech-icon" role="img" aria-label="PowerShell" title="PowerShell" data-label="PowerShell"></i>
+                    </div>
+                </article>
+
+                <article class="mission-card card-visible" data-category="ecole" data-skills="incidents">
+                    <img src="assets/script1.png" alt="Aperçu du terminal catphisher" class="mission-card-img" loading="lazy" decoding="async">
+                    <div class="mission-card-tags">
+                        <span class="mission-type-tag">École / Lab</span>
+                        <span class="mission-competence-tag">Répondre aux incidents</span>
+                        <span class="mission-competence-tag">Cybersécurité</span>
+                    </div>
+                    <h3>catphisher — Framework MITM &amp; Phishing</h3>
+                    <p>Framework d'attaque Man-in-the-Middle en Bash pour Kali Linux, conçu dans le cadre d'un TP SISR. Automatise un pipeline complet de phishing en labo contrôlé : ARP &amp; DNS spoofing via Bettercap, 18 templates de sites (LinkedIn, PayPal, Netflix...), PKI locale OpenSSL avec certificats SSL wildcard, et dashboard web live avec filtres, recherche et export CSV. Architecture modulaire en Bash pur — usage strictement pédagogique.</p>
+                    <div class="tech-icons-row">
+                        <i class="devicon-bash-plain colored tech-icon" role="img" aria-label="Bash" title="Bash" data-label="Bash"></i>
+                        <i class="devicon-apache-plain colored tech-icon" role="img" aria-label="Apache2" title="Apache2" data-label="Apache2"></i>
+                        <i class="devicon-php-plain colored tech-icon" role="img" aria-label="PHP" title="PHP" data-label="PHP"></i>
+                        <i class="devicon-linux-plain colored tech-icon" role="img" aria-label="Kali Linux" title="Kali Linux" data-label="Kali Linux"></i>
+                    </div>
+                </article>
+
+                <article class="mission-card card-visible" data-category="perso" data-skills="presence">
+                    <div class="mission-card-tags">
+                        <span class="mission-type-tag">Perso</span>
+                        <span class="mission-competence-tag">Développer la présence en ligne</span>
+                    </div>
+                    <h3>Création de ce portfolio professionnel</h3>
+                    <p>Conception, développement et déploiement d'une Single Page Application moderne, assisté par l'IA pour optimiser l'UI/UX et le code source.</p>
+                    <div class="tech-icons-row">
+                        <i class="devicon-html5-plain colored tech-icon" role="img" aria-label="HTML5" title="HTML5" data-label="HTML5"></i>
+                        <i class="devicon-css3-plain colored tech-icon" role="img" aria-label="CSS3" title="CSS3" data-label="CSS3"></i>
+                        <i class="devicon-javascript-plain colored tech-icon" role="img" aria-label="JavaScript" title="JavaScript" data-label="JavaScript"></i>
+                    </div>
+                </article>
+            </div>
+
+            <p id="missionsEmpty" class="section-desc" hidden>Aucune réalisation ne correspond à ces filtres.</p>
+
+            <div class="synthesis-card-bottom">
+                <button type="button" class="doc-preview" data-open-pdf="assets/tableau-synthese.pdf" data-doc-label="Tableau de synthèse — Épreuve E5" aria-label="Agrandir l'aperçu du tableau de synthèse">
+                    <img src="assets/tableau-synthese.png" alt="Aperçu du tableau de synthèse" class="zoomable-img" loading="lazy" decoding="async">
+                </button>
+                <div class="doc-card-v2-body">
+                    <h3>Tableau de Synthèse — Épreuve E5</h3>
+                    <p>Ce document officiel récapitule l'ensemble des compétences de mon référentiel mises en œuvre durant mon cursus et mes expériences professionnelles.</p>
+                    <a href="assets/tableau-synthese.pdf" target="_blank" rel="noopener" download class="doc-download-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Télécharger en PDF
+                    </a>
+                </div>
+            </div>
+        </div>
+        <footer class="section-footer"><p>© <span data-current-year>2026</span> Sacha Ringot</p></footer>
+    </section>
+
+    <!-- ==================================================================
+         VUE — VEILLE & LAB
+         ================================================================== -->
+    <section class="view section-view" id="view-veille" tabindex="-1" aria-label="Veille technologique et laboratoire">
+        <div class="section-body">
+            <div class="section-intro">
+                <p class="section-label">03 — Veille &amp; Lab</p>
+                <h2 class="section-title">Veille tech<br>&amp; Laboratoire</h2>
+            </div>
+
+            <div class="veille-lab-grid">
+                <!-- Le bouton est porté par le titre ; il est ensuite étiré sur toute
+                     la carte en CSS, pour garder un balisage valide et cliquable. -->
+                <article class="veille-lab-block">
+                    <p class="veille-lab-block-label">Veille Technologique (Sujet E5)</p>
+                    <h3><button type="button" class="veille-lab-trigger" data-open-article="modal-veille-content">Cybersécurité &amp; OSINT : L'infrastructure des arnaques Web3 (Ponzi)</button></h3>
+                    <p>Bien que la « pyramide de Ponzi » soit un concept financier classique, ses déclinaisons modernes s'appuient sur des <strong>architectures informatiques complexes</strong> et une <strong>ingénierie sociale</strong> redoutable...</p>
+                    <span class="read-more-link">Lire mon analyse complète &rarr;</span>
+                </article>
+
+                <article class="veille-lab-block">
+                    <p class="veille-lab-block-label">Lab Personnel</p>
+                    <h3><button type="button" class="veille-lab-trigger" data-open-article="modal-lab-content">Mon environnement d'apprentissage</button></h3>
+                    <p>En dehors des cours, j'entretiens un laboratoire personnel (VirtualBox, Packet Tracer, Windows Server) qui me permet d'expérimenter librement...</p>
+                    <span class="read-more-link">Voir mon infrastructure &rarr;</span>
+                </article>
+            </div>
+        </div>
+        <footer class="section-footer"><p>© <span data-current-year>2026</span> Sacha Ringot</p></footer>
+    </section>
+
+    <!-- ==================================================================
+         VUE — CONTACT
+         ================================================================== -->
+    <section class="view section-view" id="view-contact" tabindex="-1" aria-label="Contact">
+        <div class="section-body">
+            <div class="section-intro" style="text-align:center; margin:0 auto 3rem; max-width:100%;">
+                <p class="section-label">04 — Contact</p>
+            </div>
+
+            <div class="contact-wrapper">
+                <h3>Mes réseaux professionnels</h3>
+                <p>Retrouvez l'intégralité de mon parcours, mes expériences professionnelles et mes projets techniques sur mes différentes plateformes.</p>
+
+                <div class="contact-links">
+                    <a href="https://www.linkedin.com/in/sacha-ringot-170234378/" target="_blank" rel="noopener noreferrer" class="contact-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+                        </svg>
+                        LinkedIn
+                    </a>
+                    <a href="https://github.com/sringot" target="_blank" rel="noopener noreferrer" class="contact-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                        </svg>
+                        GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+        <footer class="section-footer"><p>© <span data-current-year>2026</span> Sacha Ringot</p></footer>
+    </section>
+
+    </main>
+
+    <!-- ==================================================================
+         MODALE — DOCUMENTS (PDF / IMAGES)
+         ================================================================== -->
+    <div class="media-modal" id="mediaModal" role="dialog" aria-modal="true" aria-labelledby="mediaModalTitle" aria-hidden="true">
+        <div class="media-modal-content">
+            <h2 class="visually-hidden" id="mediaModalTitle">Document</h2>
+            <button type="button" class="media-modal-close" data-close-modal aria-label="Fermer">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+
+            <iframe class="modal-pdf-viewer" id="modalPdf" title="Aperçu du document" hidden></iframe>
+            <img class="modal-img-viewer" id="modalImg" alt="" hidden>
+
+            <div class="media-modal-actions">
+                <a href="#" target="_blank" rel="noopener" download class="media-modal-btn" id="modalDownloadBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Télécharger le document
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================================================================
+         MODALE — ARTICLES (VEILLE & LAB)
+         ================================================================== -->
+    <div class="article-modal" id="articleModal" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="article-modal-content">
+            <button type="button" class="article-close-btn" data-close-modal aria-label="Fermer">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+
+            <article id="modal-veille-content" class="article-body" hidden>
+                <p class="section-label">Veille Technologique (Sujet E5)</p>
+                <h2 id="modal-veille-content-title">Cybersécurité &amp; OSINT : L'infrastructure des arnaques Web3 (Ponzi)</h2>
+
+                <p>Bien que la « pyramide de Ponzi » soit un concept financier classique, ses déclinaisons modernes s'appuient sur des <strong>architectures informatiques complexes</strong> et une <strong>ingénierie sociale</strong> redoutable. Dans la cybersécurité moderne, le facteur humain reste la faille de sécurité numéro un.</p>
+
+                <h3>1. L'infrastructure de l'anonymat</h3>
+                <p>Les attaquants ne se contentent plus d'un simple site web. Ils déploient des infrastructures résilientes :</p>
+                <ul>
+                    <li>Déploiement de faux sites miroirs (clones parfaits d'exchanges crypto).</li>
+                    <li>Utilisation de serveurs C2 (Command &amp; Control) pour diriger les flux.</li>
+                    <li>Création de bots automatisés sur Discord et Telegram pour modérer la communauté.</li>
+                </ul>
+
+                <h3>2. Ingénierie sociale</h3>
+                <p>L'aspect psychologique de l'attaque. Les cybercriminels contournent les pare-feux en ciblant directement l'utilisateur par des techniques de manipulation.</p>
+
+                <h3>3. L'investigation OSINT (Open Source Intelligence)</h3>
+                <p>En réponse, les experts en cybersécurité utilisent l'OSINT pour tracer les attaquants à l'aide de données publiques :</p>
+                <ul>
+                    <li>Analyse de l'historique des noms de domaine (Whois historique, DNS passifs).</li>
+                    <li>Recherche de fuites de données d'adresses IP ou d'identifiants (Shodan).</li>
+                    <li>Traçage des flux financiers directement sur la blockchain publique.</li>
+                </ul>
+
+                <p class="section-label" style="margin:3rem 0 1rem;">Sources &amp; outils suivis :</p>
+                <div class="article-source-tags">
+                    <a href="https://www.youtube.com/@Micode" target="_blank" rel="noopener noreferrer" class="article-source-tag">YouTube <span class="article-source-tag-detail">Micode / Underscore_</span></a>
+                    <a href="https://osintframework.com/" target="_blank" rel="noopener noreferrer" class="article-source-tag">Outils <span class="article-source-tag-detail">OSINT Framework</span></a>
+                    <a href="https://www.cert.ssi.gouv.fr/" target="_blank" rel="noopener noreferrer" class="article-source-tag">ANSSI &amp; CERT-FR <span class="article-source-tag-detail">Alertes de sécurité</span></a>
+                    <a href="https://www.zataz.com/" target="_blank" rel="noopener noreferrer" class="article-source-tag">ZATAZ <span class="article-source-tag-detail">Actualité cyber</span></a>
+                </div>
+            </article>
+
+            <article id="modal-lab-content" class="article-body" hidden>
+                <p class="section-label">Laboratoire personnel</p>
+                <h2 id="modal-lab-content-title">Mon environnement d'apprentissage</h2>
+                <p>Afin de mettre en pratique les concepts théoriques vus en cours et d'expérimenter de nouvelles solutions sans risque pour un réseau de production, j'ai mis en place et j'entretiens un <strong>laboratoire informatique personnel</strong>.</p>
+
+                <h3>Virtualisation &amp; systèmes</h3>
+                <ul>
+                    <li>Utilisation quotidienne d'hyperviseurs de type 2 (VirtualBox / VMware) pour le déploiement de machines virtuelles.</li>
+                    <li>Maîtrise des environnements Windows (client / serveur) et Linux (Debian, Ubuntu).</li>
+                    <li>Déploiement d'un bac à sable (sandbox) sous Kali Linux.</li>
+                </ul>
+
+                <h3>Infrastructure &amp; réseau</h3>
+                <ul>
+                    <li>Maquettage d'architectures réseau complexes avec Cisco Packet Tracer et GNS3.</li>
+                    <li>Mise en place de services d'infrastructure : Active Directory, serveurs DNS et DHCP.</li>
+                </ul>
+
+                <h3>Automatisation &amp; scripting</h3>
+                <ul>
+                    <li>Rédaction de scripts (PowerShell, Bash) pour l'automatisation des tâches récurrentes.</li>
+                    <li>Intégration d'outils d'IA pour optimiser l'écriture et le débogage de scripts complexes.</li>
+                </ul>
+            </article>
+        </div>
+    </div>
+
+    <script src="js/theme.js" defer></script>
+    <script src="js/portfolio.js" defer></script>
+</body>
+</html>

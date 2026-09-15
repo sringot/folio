@@ -1,0 +1,250 @@
+/* ==========================================================================
+   certif.css — Présentation plein écran des certifications (format « deck »).
+   Dépend de tokens.css : les couleurs viennent du même socle que le portfolio,
+   seules les polices changent pour marquer l'identité « présentation ».
+   ========================================================================== */
+
+:root {
+    --font-deck:    'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-display: 'Fraunces', Georgia, serif;
+    --topbar-h:     52px;
+    --bottombar-h:  52px;
+}
+
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { font-family: var(--font-deck); }
+
+/* ==========================================================================
+   1. BARRE SUPÉRIEURE
+   ========================================================================== */
+.topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--topbar-h); padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--nav-bg);
+    backdrop-filter: blur(24px) saturate(1.6);
+    -webkit-backdrop-filter: blur(24px) saturate(1.6);
+    border-bottom: 1px solid var(--border);
+    transition: background var(--transition), border-color var(--transition);
+}
+.topbar-left { display: flex; align-items: center; gap: 1rem; }
+.back-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; font-weight: 500; color: var(--text-secondary); text-decoration: none; padding: 0.32rem 0.8rem; border: 1px solid var(--border); border-radius: 100px; transition: all 0.2s ease; letter-spacing: 0.01em; }
+.back-btn:hover { color: var(--text-primary); border-color: var(--text-tertiary); background: var(--hover-bg); }
+.back-btn svg { width: 11px; height: 11px; }
+.topbar-sep { width: 1px; height: 14px; background: var(--border); }
+.topbar-title { font-size: 0.72rem; font-weight: 400; color: var(--text-tertiary); letter-spacing: 0.01em; }
+
+.topbar-right { display: flex; align-items: center; gap: 0.75rem; }
+.slide-counter { font-size: 0.68rem; font-weight: 600; color: var(--text-tertiary); letter-spacing: 0.08em; font-variant-numeric: tabular-nums; }
+.theme-btn { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border); background: transparent; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+.theme-btn:hover { border-color: var(--text-tertiary); color: var(--text-primary); }
+.theme-btn svg { width: 13px; height: 13px; }
+.icon-sun  { display: none; }
+.icon-moon { display: block; }
+[data-theme="dark"] .icon-sun  { display: block; }
+[data-theme="dark"] .icon-moon { display: none; }
+
+/* ==========================================================================
+   2. PROGRESSION + PISTE DE DIAPOSITIVES
+   ========================================================================== */
+.progress { position: fixed; top: var(--topbar-h); left: 0; right: 0; height: 1.5px; background: var(--border); z-index: 100; }
+.progress-fill { height: 100%; width: 0%; background: var(--cnil-ink); transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+
+.slides-wrap { position: fixed; inset: 0; top: calc(var(--topbar-h) + 1.5px); bottom: var(--bottombar-h); overflow: hidden; }
+.slides-track { display: flex; height: 100%; transition: transform 0.55s cubic-bezier(0.77, 0, 0.175, 1); will-change: transform; }
+.slide { flex-shrink: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 2.5rem 5vw; overflow: hidden; }
+.slide-inner { width: 100%; max-width: 860px; opacity: 0; transform: translateY(22px); transition: opacity 0.5s ease 0.18s, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.18s; }
+.slide.active .slide-inner { opacity: 1; transform: translateY(0); }
+
+/* ==========================================================================
+   3. BARRE INFÉRIEURE
+   ========================================================================== */
+.bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0; height: var(--bottombar-h);
+    display: flex; align-items: center; justify-content: center; gap: 1.2rem;
+    background: var(--nav-bg);
+    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    border-top: 1px solid var(--border); z-index: 100;
+    transition: background var(--transition), border-color var(--transition);
+}
+.nav-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); background: transparent; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+.nav-btn:hover:not(:disabled) { color: var(--text-primary); border-color: var(--text-tertiary); }
+.nav-btn:disabled { opacity: 0.2; cursor: default; }
+.nav-btn svg { width: 14px; height: 14px; }
+
+.dots { display: flex; gap: 0.45rem; align-items: center; }
+.dot { width: 5px; height: 5px; padding: 0; border: none; border-radius: 50%; background: var(--border); cursor: pointer; transition: all 0.3s ease; }
+.dot.active { background: var(--text-primary); transform: scale(1.5); }
+.dot:hover:not(.active) { background: var(--text-tertiary); }
+.dot:focus-visible { outline-offset: 5px; }
+
+.hint { position: fixed; bottom: calc(var(--bottombar-h) + 12px); right: 1.5rem; font-size: 0.6rem; color: var(--text-tertiary); letter-spacing: 0.06em; opacity: 0.6; pointer-events: none; display: flex; gap: 0.3rem; align-items: center; }
+.kbd { border: 1px solid var(--border); border-radius: 3px; padding: 0.08rem 0.3rem; font-size: 0.55rem; }
+
+/* ==========================================================================
+   4. COMPOSANTS PARTAGÉS ENTRE DIAPOSITIVES
+   ========================================================================== */
+.eyebrow { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.22em; color: var(--text-tertiary); margin-bottom: 0.9rem; }
+.eyebrow-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--cnil-ink); opacity: 0.7; }
+.slide-h1 { font-family: var(--font-display); font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 900; letter-spacing: -0.04em; line-height: 0.95; color: var(--text-primary); }
+.slide-h1 em { font-style: italic; font-weight: 300; }
+.slide-h2 { font-family: var(--font-display); font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; color: var(--text-primary); margin-bottom: 0.2rem; }
+
+/* ==========================================================================
+   5. DIAPO 1 — TITRE
+   ========================================================================== */
+.s1-layout { display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center; }
+.s1-sub { font-size: clamp(0.88rem, 1.6vw, 1rem); font-weight: 300; color: var(--text-secondary); line-height: 1.75; max-width: 440px; margin: 1.4rem 0 2rem; }
+.s1-badges { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; }
+.badge-cnil { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.55rem 1.1rem; background: var(--cnil-soft); border: 1px solid var(--cnil-line); border-radius: 100px; font-size: 0.78rem; font-weight: 500; color: var(--cnil-ink); }
+.badge-cnil-icon { width: 22px; height: 22px; border-radius: 5px; background: var(--cnil); display: flex; align-items: center; justify-content: center; font-size: 0.38rem; font-weight: 900; color: #fff; letter-spacing: 0.04em; flex-shrink: 0; }
+.badge-obtained { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem; background: var(--badge-bg); color: var(--badge-text); border-radius: 100px; font-size: 0.76rem; font-weight: 500; }
+.badge-obtained::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--badge-text); animation: pulse 2s ease infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
+
+.s1-visual { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; }
+.s1-big-logo { width: 120px; height: 120px; border-radius: 28px; background: var(--cnil); display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 60px rgba(0, 49, 137, 0.25); }
+.s1-big-logo span { font-family: var(--font-display); font-size: 2rem; font-weight: 900; color: #fff; letter-spacing: 0.04em; }
+.s1-logo-caption { font-size: 0.62rem; color: var(--text-tertiary); font-weight: 500; text-align: center; line-height: 1.5; }
+
+/* ==========================================================================
+   6. DIAPO « ORGANISME » — encart + liste
+   ========================================================================== */
+.cnil-hero { display: flex; align-items: center; gap: 1.4rem; padding: 1.4rem 1.6rem; background: var(--cnil-soft); border: 1px solid var(--cnil-line); border-radius: var(--radius); margin-bottom: 1.8rem; }
+.cnil-hero-logo { width: 56px; height: 56px; border-radius: 14px; background: var(--cnil); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cnil-hero-logo span { font-family: var(--font-display); font-size: 0.85rem; font-weight: 900; color: #fff; letter-spacing: 0.05em; }
+.cnil-hero h3 { font-size: 0.98rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+.cnil-hero p  { font-size: 0.78rem; font-weight: 300; color: var(--text-secondary); line-height: 1.6; }
+
+.info-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+.info-list li { display: flex; align-items: flex-start; gap: 0.8rem; font-size: 0.86rem; font-weight: 300; color: var(--text-secondary); line-height: 1.65; }
+.info-dot { width: 20px; height: 20px; border-radius: 50%; background: var(--cnil-soft); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.05rem; }
+.info-dot::after { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--cnil-ink); opacity: 0.7; }
+.info-list strong { color: var(--text-primary); font-weight: 500; }
+
+/* ==========================================================================
+   7. DIAPO « CONTEXTE » — cartes
+   ========================================================================== */
+.why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 1rem; }
+.why-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.1rem; transition: background var(--transition), border-color var(--transition), transform 0.25s ease; }
+.why-card:hover { transform: translateY(-2px); }
+.why-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--cnil-soft); display: flex; align-items: center; justify-content: center; margin-bottom: 0.7rem; }
+.why-icon svg { width: 15px; height: 15px; color: var(--cnil-ink); }
+.why-card h3 { font-size: 0.82rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); margin-bottom: 0.35rem; }
+.why-card p  { font-size: 0.76rem; font-weight: 300; color: var(--text-secondary); line-height: 1.6; }
+
+/* ==========================================================================
+   8. DIAPO « MODULES »
+   ========================================================================== */
+.modules-list { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1.6rem; }
+.module-row { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1.2rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; transition: background var(--transition), border-color var(--transition), transform 0.2s ease, opacity 0.4s ease; opacity: 0; transform: translateX(-12px); }
+.slide.active .module-row { opacity: 1; transform: translateX(0); }
+.slide.active .module-row:nth-child(1) { transition-delay: 0.22s; }
+.slide.active .module-row:nth-child(2) { transition-delay: 0.30s; }
+.slide.active .module-row:nth-child(3) { transition-delay: 0.38s; }
+.slide.active .module-row:nth-child(4) { transition-delay: 0.46s; }
+.slide.active .module-row:nth-child(5) { transition-delay: 0.54s; }
+.slide.active .module-row:nth-child(6) { transition-delay: 0.62s; }
+.module-row:hover { transform: translateX(4px); }
+.module-num { font-size: 0.6rem; font-weight: 700; color: var(--cnil-ink); opacity: 0.8; width: 20px; text-align: center; flex-shrink: 0; letter-spacing: 0.05em; }
+.module-name { font-size: 0.86rem; font-weight: 400; color: var(--text-primary); flex: 1; }
+.module-check { width: 22px; height: 22px; border-radius: 50%; background: var(--badge-bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.module-check svg { width: 11px; height: 11px; color: var(--badge-text); }
+
+/* ==========================================================================
+   9. DIAPO « POSITIONNEMENT » — tableau comparatif
+   ========================================================================== */
+.comp-scroll { overflow-x: auto; }
+.comp-table { width: 100%; border-collapse: collapse; margin-top: 1rem; min-width: 540px; }
+/* En-têtes de colonnes (thead) : petites capitales discrètes. */
+.comp-table thead th { text-align: left; font-size: 0.58rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-tertiary); padding: 0 1rem 0.7rem; border-bottom: 1px solid var(--border); }
+
+/* En-têtes de lignes (tbody th) : même rendu que les cellules, en plus appuyé. */
+.comp-table td,
+.comp-table tbody th { padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.82rem; font-weight: 300; color: var(--text-secondary); vertical-align: middle; text-align: left; }
+.comp-table tbody th { font-weight: 400; color: var(--text-primary); }
+.comp-table tbody tr:last-child td,
+.comp-table tbody tr:last-child th { border-bottom: none; }
+
+.comp-table .row-hl td,
+.comp-table .row-hl th { background: var(--bg-card); color: var(--text-primary); font-weight: 400; }
+.comp-table .row-hl > :first-child { border-radius: 10px 0 0 10px; }
+.comp-table .row-hl > :last-child  { border-radius: 0 10px 10px 0; }
+.pill { display: inline-block; padding: 0.18rem 0.7rem; border-radius: 100px; font-size: 0.67rem; font-weight: 500; }
+.pill-green { background: var(--badge-bg); color: var(--badge-text); }
+.pill-gray  { background: var(--bg-secondary); color: var(--text-tertiary); }
+
+.comp-why { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-top: 0.9rem; }
+.comp-why-item { padding: 0.85rem 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; transition: background var(--transition), border-color var(--transition); }
+.comp-why-num { font-family: var(--font-display); font-size: 1.1rem; font-weight: 900; color: var(--cnil-ink); opacity: 0.18; line-height: 1; margin-bottom: 0.4rem; }
+.comp-why-item h4 { font-size: 0.78rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.3rem; letter-spacing: -0.01em; }
+.comp-why-item p  { font-size: 0.71rem; font-weight: 300; color: var(--text-secondary); line-height: 1.6; }
+
+/* ==========================================================================
+   10. DIAPO « RÉSULTATS »
+   ========================================================================== */
+.results-intro { font-size: 0.84rem; font-weight: 300; color: var(--text-secondary); margin: 0.5rem 0 1.8rem; line-height: 1.7; }
+.results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem; }
+.result-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 13px; padding: 1.2rem; transition: background var(--transition), border-color var(--transition), transform 0.25s ease, opacity 0.5s ease; opacity: 0; transform: translateY(14px); }
+.slide.active .result-card { opacity: 1; transform: translateY(0); }
+.slide.active .result-card:nth-child(1) { transition-delay: 0.20s; }
+.slide.active .result-card:nth-child(2) { transition-delay: 0.28s; }
+.slide.active .result-card:nth-child(3) { transition-delay: 0.36s; }
+.slide.active .result-card:nth-child(4) { transition-delay: 0.44s; }
+.slide.active .result-card:nth-child(5) { transition-delay: 0.52s; }
+.slide.active .result-card:nth-child(6) { transition-delay: 0.60s; }
+.result-card:hover { transform: translateY(-2px); }
+.result-mod { font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-tertiary); margin-bottom: 0.5rem; }
+.result-name { font-size: 0.8rem; font-weight: 500; color: var(--text-primary); margin-bottom: 1rem; line-height: 1.4; min-height: 2.1rem; }
+.result-bar-wrap { background: var(--bg-secondary); border-radius: 100px; height: 5px; overflow: hidden; margin-bottom: 0.5rem; }
+.result-bar { height: 100%; width: 0%; border-radius: 100px; background: linear-gradient(90deg, var(--cnil-ink), #4A7ABF); transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
+.result-score { font-size: 0.72rem; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.02em; }
+.result-score .score-val { color: var(--text-primary); font-size: 1rem; font-family: var(--font-display); }
+
+.results-average { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; padding: 0.85rem 1.4rem; background: var(--cnil-soft); border: 1px solid var(--cnil-line); border-radius: 12px; opacity: 0; transition: opacity 0.6s ease 0.9s; }
+.results-average.visible { opacity: 1; }
+.avg-label { font-size: 0.78rem; font-weight: 500; color: var(--text-secondary); }
+.avg-value { font-family: var(--font-display); font-size: 1.6rem; font-weight: 900; color: var(--cnil-ink); letter-spacing: -0.03em; }
+.avg-pct { font-size: 0.9rem; font-weight: 500; color: var(--cnil-ink); margin-left: 2px; }
+
+/* ==========================================================================
+   11. DIAPO « BILAN »
+   ========================================================================== */
+.bilan-layout { display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem; }
+.bilan-quote { position: relative; padding: 2rem 2rem 1.6rem 3rem; background: var(--bg-card); border-radius: var(--radius); border-left: 3px solid var(--cnil-ink); }
+.bilan-quote-mark { position: absolute; top: -0.5rem; left: 1.2rem; font-family: var(--font-display); font-size: 5rem; font-weight: 900; color: var(--cnil-ink); opacity: 0.15; line-height: 1; pointer-events: none; }
+.bilan-quote p { font-size: clamp(0.92rem, 1.6vw, 1.05rem); font-weight: 300; font-style: italic; color: var(--text-primary); line-height: 1.75; position: relative; }
+.bilan-quote-author { display: block; margin-top: 1rem; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
+
+.bilan-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.bilan-item { padding: 1.3rem 1.4rem; border-top: 1px solid var(--border); opacity: 0; transform: translateY(14px); }
+.slide.active .bilan-item { opacity: 1; transform: translateY(0); }
+.slide.active .bilan-item:nth-child(1) { transition: opacity 0.5s ease 0.40s, transform 0.5s ease 0.40s; }
+.slide.active .bilan-item:nth-child(2) { transition: opacity 0.5s ease 0.55s, transform 0.5s ease 0.55s; }
+.slide.active .bilan-item:nth-child(3) { transition: opacity 0.5s ease 0.70s, transform 0.5s ease 0.70s; }
+.bilan-num { font-family: var(--font-display); font-size: 2rem; font-weight: 900; color: var(--cnil-ink); opacity: 0.2; letter-spacing: -0.04em; line-height: 1; margin-bottom: 0.6rem; }
+.bilan-item h3 { font-size: 0.88rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+.bilan-item p  { font-size: 0.78rem; font-weight: 300; color: var(--text-secondary); line-height: 1.7; }
+
+/* ==========================================================================
+   12. RESPONSIVE
+   ========================================================================== */
+@media (max-width: 860px) {
+    .comp-why { grid-template-columns: 1fr; gap: 0.5rem; }
+    .comp-why-item { padding: 0.7rem 0.9rem; }
+}
+
+@media (max-width: 680px) {
+    .slide { padding: 1.5rem; align-items: flex-start; overflow-y: auto; }
+    .s1-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .s1-visual { display: none; }
+    .why-grid { grid-template-columns: 1fr; }
+    .results-grid { grid-template-columns: 1fr 1fr; }
+    .bilan-items { grid-template-columns: 1fr; }
+    .topbar { padding: 0 1rem; }
+    .topbar-sep, .topbar-title, .hint { display: none; }
+}
+
+@media (max-width: 460px) {
+    .results-grid { grid-template-columns: 1fr; }
+}
